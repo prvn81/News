@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family:Consolas,monaco,monospace ;
+            background-color: #7df9ff;
+        }
+        fieldset {
+            padding: 20px;
+            border-radius: 20px;
+            border-color: black;
+            background-color: #e0ffff;
+        }
+        .login-btn {
+            margin-left: 100px;
+            height: 35px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 17px;
+            border: 1px solid black;
+            cursor: pointer;
+            background-color: white;
+            transition: 0.15s;
+        }
+        .login-btn:hover{
+            box-shadow: 2px 2px 4px black;
+        }
+        .login-btn:active{
+            background-color: #7df9ff;
+            color: black;
+            padding-left: 23px;
+            padding-right: 23px;
+            margin-left: 97px;
+        }
+        .main-div{
+            padding: 10px;
+            background-color: white;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-div">
+        <form id="loginForm">
+            <fieldset>
+                <legend>Login :</legend>
+                <div class="form-div">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required><br><br>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required><br><br>
+                    <button type="submit" class="login-btn">Login</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.msg); // Success message from the server
+                    window.location.href = './index.html'; // Redirect to index page
+                } else {
+                    alert(result.msg); // Error message
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again later.');
+            }
+        });
+    </script>
+</body>
+</html>
